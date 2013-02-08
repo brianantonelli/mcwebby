@@ -16,7 +16,7 @@
 	</div><!-- /header -->
 
 	<div data-role="content">	
-		<h2>Server Status: <span id="serverStatus"></span></h2>
+		<h2>Server Status: <span id="serverStatus" style="color:red;">Offline</span></h2>
 		<h2>Users Online: <span id="userCount"></span></h2>
 		<ul data-role="listview" data-inset="true" id="users">
 		</ul>
@@ -44,6 +44,8 @@
 					});
 
 					users.listview('refresh');
+					if(parseInt(data.onlineCount, 10) > 0) users.show();
+					else users.hide();
 				});			
 			},
 			start = function(){
