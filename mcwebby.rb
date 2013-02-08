@@ -26,6 +26,15 @@ class MCWebby
 	def last_n_line_of_log(n)
 		return `tail -n #{n} #{mcdir}server.log`
 	end
+
+	def is_online
+		running = `ps -ef | grep minecraft_server.jar`
+		if running.include? '/usr/bin/java' then
+			return true
+		else
+			return false
+		end
+	end
 end
 
 set :public_folder, 'public'
@@ -47,7 +56,8 @@ get '/online.json' do
 	maxusers = tmp[1][0, 1]
 	users = data[2].split(',')
 
-	status = mcwebby.execute_mcwrapper 'status'
+	# status = mcwebby.execute_mcwrapper 'status'
+	status = mcwebby.is_online
 	backup = mcwebby.execute_mcwrapper 'config latestbackup'
 
 	content_type :json

@@ -16,6 +16,7 @@
 	</div><!-- /header -->
 
 	<div data-role="content">	
+		<h2>Server Status: <span id="serverStatus"></span></h2>
 		<h2>Users Online: <span id="userCount"></span></h2>
 		<ul data-role="listview" data-inset="true" id="users">
 		</ul>
@@ -31,7 +32,8 @@
 				$.ajax('/online.json').done(function(data){
 					userCount = data.onlineCount;
 					$('#userCount').text([data.onlineCount, data.maxOnline].join('/'));
-					$('#lastBackup').text(data.lastBackup);
+					$('#lastBackup').text(data.lastBackup.split('storage/')[1]);
+					$('#serverStatus').text(data.status ? 'Online' : 'Offline').css('color', data.status ? 'green' : 'red');
 					var users = $('#users').empty();
 					$(data.userList).each(function(i, user){
 						users
