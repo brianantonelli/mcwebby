@@ -68,3 +68,10 @@ get '/online.json' do
 		:lastBackup => backup }.to_json
 end
 
+get '/log.json' do
+	mcwebby = MCWebby.new
+	log = mcwebby.last_n_line_of_log 25
+	content_type :json
+	{ :log => log }.to_json
+end
+
